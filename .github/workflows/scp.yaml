@@ -2,6 +2,7 @@ name: Test SCP
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   scp:
@@ -20,3 +21,23 @@ jobs:
           port: ${{ secrets.PORT }}
           source: README.md
           target: ${{ secrets.SCP_PATH }}
+
+  rsync:
+    name: RSync README
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy .env with rsync over SSH
+        uses: burnett01/rsync-deployments@7.0.2
+        with:
+          switches: >-
+            -avh
+            --timeout 60
+            --progress
+            --no-compress
+            --bwlimit 5120
+          path: READMEE.md
+          remote_path: ${{ secrets.SCP_PATH }}
+          remote_host: ${{ secrets.HOST }}
+          remote_port: ${{ secrets.PORT }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.KEY }}
