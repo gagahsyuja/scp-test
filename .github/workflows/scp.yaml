@@ -31,7 +31,6 @@ jobs:
         with:
           switches: >-
             -avh
-            --timeout 60
             --progress
             --no-compress
             --bwlimit 5120
