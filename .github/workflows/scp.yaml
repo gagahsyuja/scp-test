@@ -1,0 +1,22 @@
+name: Test SCP
+
+on:
+  push:
+
+jobs:
+  scp:
+    name: SCP README
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Copy README
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: README.md
+          target: ${{ secrets.SCP_PATH }}
